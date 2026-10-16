@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CD Roadmap Progress</title>
+<style>
+  :root{
+    --bg:#f8fafc;--card:#ffffff;--line:#e2e8f0;--ink:#1e293b;--muted:#64748b;--faint:#94a3b8;
+    --track:#f1f5f9;--fill:#22c55e;--pill-bg:#dcfce7;--pill-ink:#15803d;
+    --soft-bg:#f1f5f9;--soft-ink:#475569;--amber-bg:#fef3c7;--amber-ink:#b45309;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f172a;--card:#1e293b;--line:#334155;--ink:#f1f5f9;--muted:#94a3b8;--faint:#64748b;
+      --track:#334155;--fill:#4ade80;--pill-bg:#14532d;--pill-ink:#bbf7d0;
+      --soft-bg:#334155;--soft-ink:#cbd5e1;--amber-bg:#78350f;--amber-ink:#fde68a;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:26px 16px 40px}
+  .wrap{max-width:410px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 17px}
+  .head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
+  .title svg{width:16px;height:16px;color:var(--muted)}
+  .pill{font-size:11px;padding:3px 8px;border-radius:6px;background:var(--pill-bg);color:var(--pill-ink);white-space:nowrap}
+  .pill.soft{background:var(--soft-bg);color:var(--soft-ink)}
+  .pill.amber{background:var(--amber-bg);color:var(--amber-ink)}
+  .label{font-size:12px;color:var(--muted);font-weight:500}
+  .big{font-size:40px;font-weight:600;letter-spacing:-.5px;margin:4px 0 10px}
+  .bar{height:6px;border-radius:99px;background:var(--track);overflow:hidden}
+  .bar > i{display:block;height:100%;width:0;background:var(--fill);border-radius:99px;transition:width .8s ease}
+  .sub{font-size:12px;color:var(--muted);margin-top:8px;display:flex;justify-content:space-between;gap:8px}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stat .num{font-size:22px;font-weight:600;margin-top:4px}
+  .stat .unit{font-size:12px;color:var(--muted);margin-top:2px}
+  .phase{display:flex;flex-direction:column;gap:8px}
+  .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .pname{font-size:14px;font-weight:600}
+  .pname span{color:var(--faint);font-weight:500;margin-right:4px}
+  .pct{font-size:14px;font-weight:600}
+  .meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+  .section{font-size:12px;color:var(--muted);font-weight:500;margin:6px 2px -2px}
+  footer{text-align:right;font-size:11px;color:var(--faint);margin-top:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="card">
+    <div class="head">
+      <div class="title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+        Creative Director Roadmap
+      </div>
+      <span class="pill" id="weekPill">Week 1 / 32</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">Overall progress</div>
+    <div class="big" id="overall">0%</div>
+    <div class="bar"><i id="overallBar"></i></div>
+    <div class="sub"><span id="tasksLine"></span><span>17 Oct 2026 → 28 May 2027</span></div>
+  </div>
+
+  <div class="stats">
+    <div class="card stat">
+      <div class="label">Time elapsed</div>
+      <div class="num" id="timePct">0%</div>
+      <div class="unit" id="dayLine"></div>
+    </div>
+    <div class="card stat">
+      <div class="label">Setup</div>
+      <div class="num" id="setupNum">0/0</div>
+      <div class="unit" id="setupLine"></div>
+    </div>
+  </div>
+
+  <div class="section">Phases</div>
+  <div id="phases" style="display:flex;flex-direction:column;gap:12px"></div>
+
+  <footer>Mohamed Abdelghany 2026</footer>
+</div>
+
+<script>
+/* ===== Update progress here: change "done" as you tick items off ===== */
+const SETUP = { done: 7, total: 7 };
+const PHASES = [
+  { n:1, name:"The Storyteller",  weeks:"1–4",   start:"2026-10-17", end:"2026-11-13", done:2, total:38 },
+  { n:2, name:"The Idea Maker",   weeks:"5–8",   start:"2026-11-14", end:"2026-12-11", done:0, total:2  },
+  { n:3, name:"The Strategist",   weeks:"9–12",  start:"2026-12-12", end:"2027-01-08", done:0, total:3  },
+  { n:4, name:"The Writer",       weeks:"13–16", start:"2027-01-09", end:"2027-02-05", done:0, total:2  },
+  { n:5, name:"The Scriptwriter", weeks:"17–20", start:"2027-02-06", end:"2027-03-05", done:0, total:3  },
+  { n:6, name:"The Presenter",    weeks:"21–24", start:"2027-03-06", end:"2027-04-02", done:0, total:2  },
+  { n:7, name:"The Negotiator",   weeks:"25–28", start:"2027-04-03", end:"2027-04-30", done:0, total:2  },
+  { n:8, name:"The Leader",       weeks:"29–32", start:"2027-05-01", end:"2027-05-28", done:0, total:4  }
+];
+const START = "2026-10-17", END = "2027-05-28";
+/* ===================================================================== */
+
+const day = s => new Date(s + "T00:00:00");
+const fmt = s => day(s).toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+const today = new Date(); today.setHours(0,0,0,0);
+
+// Overall = average of the 8 phases (each phase = 4 weeks, equal weight)
+const pcts = PHASES.map(p => p.total ? p.done / p.total : 0);
+const overall = pcts.reduce((a,b)=>a+b,0) / PHASES.length * 100;
+const doneAll = PHASES.reduce((a,p)=>a+p.done,0), totalAll = PHASES.reduce((a,p)=>a+p.total,0);
+
+const totalDays = (day(END) - day(START)) / 864e5 + 1;
+const elapsed = Math.min(Math.max((today - day(START)) / 864e5 + 1, 0), totalDays);
+const week = Math.min(Math.max(Math.ceil(elapsed / 7), 1), 32);
+
+document.getElementById("overall").textContent = overall.toFixed(1) + "%";
+document.getElementById("tasksLine").textContent = doneAll + " of " + totalAll + " tasks";
+document.getElementById("weekPill").textContent = "Week " + week + " / 32";
+document.getElementById("timePct").textContent = (elapsed / totalDays * 100).toFixed(1) + "%";
+document.getElementById("dayLine").textContent = "Day " + Math.round(elapsed) + " of " + totalDays;
+document.getElementById("setupNum").textContent = SETUP.done + "/" + SETUP.total;
+document.getElementById("setupLine").textContent = SETUP.done === SETUP.total ? "Complete" : "In progress";
+
+const list = document.getElementById("phases");
+PHASES.forEach((p, i) => {
+  const pct = Math.round(pcts[i] * 100);
+  let status = "Upcoming", cls = "soft";
+  if (pct === 100) { status = "Done"; cls = ""; }
+  else if (today >= day(p.start) && today <= day(p.end)) { status = "In progress"; cls = ""; }
+  else if (today > day(p.end)) { status = "Behind"; cls = "amber"; }
+  else if (p.done > 0) { status = "Started"; cls = ""; }
+  const el = document.createElement("div");
+  el.className = "card phase";
+  el.innerHTML =
+    '<div class="row"><div class="pname"><span>' + p.n + '</span>' + p.name + '</div><div class="pct">' + pct + '%</div></div>' +
+    '<div class="bar"><i data-w="' + pct + '"></i></div>' +
+    '<div class="meta"><span>Weeks ' + p.weeks + ' · ' + fmt(p.start) + ' – ' + fmt(p.end) + ' · ' + p.done + '/' + p.total + '</span><span class="pill ' + cls + '">' + status + '</span></div>';
+  list.appendChild(el);
+});
+
+requestAnimationFrame(() => setTimeout(() => {
+  document.getElementById("overallBar").style.width = overall + "%";
+  document.querySelectorAll(".bar > i[data-w]").forEach(b => b.style.width = b.dataset.w + "%");
+}, 60));
+</script>
+</body>
+</html>
