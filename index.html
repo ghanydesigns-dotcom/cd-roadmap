@@ -19,7 +19,22 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:26px 16px 40px}
-  .wrap{max-width:410px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+  .wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+  .top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+  .titlecard{display:flex;align-items:center}
+  .titlecard .head{width:100%}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media (max-width:900px){
+    .top{grid-template-columns:1fr 1fr}
+    .top .titlecard{grid-column:1 / -1}
+    .grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:520px){
+    body{padding:16px 16px 32px}
+    .grid{grid-template-columns:1fr}
+    .big{font-size:34px}
+    .meta{flex-wrap:wrap;gap:6px}
+  }
   .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 17px}
   .head{display:flex;align-items:center;justify-content:space-between;gap:8px}
   .title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
@@ -32,7 +47,6 @@
   .bar{height:6px;border-radius:99px;background:var(--track);overflow:hidden}
   .bar > i{display:block;height:100%;width:0;background:var(--fill);border-radius:99px;transition:width .8s ease}
   .sub{font-size:12px;color:var(--muted);margin-top:8px;display:flex;justify-content:space-between;gap:8px}
-  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .stat .num{font-size:22px;font-weight:600;margin-top:4px}
   .stat .unit{font-size:12px;color:var(--muted);margin-top:2px}
   .phase{display:flex;flex-direction:column;gap:8px}
@@ -40,7 +54,9 @@
   .pname{font-size:14px;font-weight:600}
   .pname span{color:var(--faint);font-weight:500;margin-right:4px}
   .pct{font-size:14px;font-weight:600}
-  .meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+  .phase{justify-content:space-between}
+  .meta{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)}
+  .meta .pill{align-self:flex-start}
   .section{font-size:12px;color:var(--muted);font-weight:500;margin:6px 2px -2px}
   footer{text-align:right;font-size:11px;color:var(--faint);margin-top:4px}
 </style>
@@ -48,24 +64,16 @@
 <body>
 <div class="wrap">
 
-  <div class="card">
-    <div class="head">
-      <div class="title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
-        Creative Director Roadmap
+  <div class="top">
+    <div class="card titlecard">
+      <div class="head">
+        <div class="title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+          Creative Director Roadmap
+        </div>
+        <span class="pill" id="weekPill">Week 1 / 32</span>
       </div>
-      <span class="pill" id="weekPill">Week 1 / 32</span>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="label">Overall progress</div>
-    <div class="big" id="overall">0%</div>
-    <div class="bar"><i id="overallBar"></i></div>
-    <div class="sub"><span id="tasksLine"></span><span>17 Oct 2026 → 28 May 2027</span></div>
-  </div>
-
-  <div class="stats">
     <div class="card stat">
       <div class="label">Time elapsed</div>
       <div class="num" id="timePct">0%</div>
@@ -78,8 +86,15 @@
     </div>
   </div>
 
+  <div class="card">
+    <div class="label">Overall progress</div>
+    <div class="big" id="overall">0%</div>
+    <div class="bar"><i id="overallBar"></i></div>
+    <div class="sub"><span id="tasksLine"></span><span>17 Oct 2026 → 28 May 2027</span></div>
+  </div>
+
   <div class="section">Phases</div>
-  <div id="phases" style="display:flex;flex-direction:column;gap:12px"></div>
+  <div id="phases" class="grid"></div>
 
   <footer>Mohamed Abdelghany 2026</footer>
 </div>
