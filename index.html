@@ -169,7 +169,7 @@ const item = i => '<li class="' + (isDone(i) ? "done" : "") + '"><span class="bo
 function checklist(p, open) {
   const gs = TASKS[p.n] || [];
   if (!gs.length) return "";
-  return '<details class="tasks"' + (open ? " open" : "") + '><summary><span class="more">See more</span><span class="less">See less</span><span class="cnt">· ' + p.done + '/' + p.total + ' tasks</span></summary><div class="tlist">' +
+  return '<details class="tasks"' + (open ? " open" : "") + '><summary><span class="more">Phase details</span><span class="less">Hide details</span><span class="cnt">· ' + p.done + '/' + p.total + ' tasks</span></summary><div class="tlist">' +
     gs.map(g => (gs.length > 1 || g.g !== "Make" ? '<div class="glabel">' + esc(g.g) + '</div>' : '') + '<ul>' + g.items.map(item).join("") + '</ul>').join("") +
     '</div></details>';
 }
