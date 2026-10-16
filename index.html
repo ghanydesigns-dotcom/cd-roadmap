@@ -56,10 +56,14 @@
   .pct{font-size:14px;font-weight:600}
   .grid{align-items:start}
   .tasks{border-top:1px solid var(--line);margin-top:2px;padding-top:8px}
-  .tasks summary{font-size:12px;font-weight:500;color:var(--ink);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  .tasks summary{list-style:none;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--ink);background:var(--soft-bg);border:1px solid var(--line);border-radius:7px;padding:7px 10px;user-select:none;transition:background .15s}
+  .tasks summary:hover{background:var(--track)}
   .tasks summary::-webkit-details-marker{display:none}
-  .tasks summary::after{content:"";width:6px;height:6px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg);margin:0 3px 3px 0;transition:transform .2s}
-  .tasks[open] summary::after{transform:rotate(-135deg);margin:3px 3px 0 0}
+  .tasks summary::after{content:"";width:5px;height:5px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg);margin-top:-3px;transition:transform .2s}
+  .tasks[open] summary::after{transform:rotate(-135deg);margin-top:3px}
+  .tasks .less, .tasks[open] .more{display:none}
+  .tasks[open] .less{display:inline}
+  .tasks summary .cnt{color:var(--muted);font-weight:400}
   .tlist{max-height:360px;overflow-y:auto;margin-top:8px;padding-right:2px}
   .glabel{font-size:11px;font-weight:600;color:var(--faint);text-transform:uppercase;letter-spacing:.04em;margin:10px 0 4px}
   .glabel:first-child{margin-top:0}
@@ -165,7 +169,7 @@ const item = i => '<li class="' + (isDone(i) ? "done" : "") + '"><span class="bo
 function checklist(p, open) {
   const gs = TASKS[p.n] || [];
   if (!gs.length) return "";
-  return '<details class="tasks"' + (open ? " open" : "") + '><summary>Tasks · ' + p.done + '/' + p.total + '</summary><div class="tlist">' +
+  return '<details class="tasks"' + (open ? " open" : "") + '><summary><span class="more">See more</span><span class="less">See less</span><span class="cnt">· ' + p.done + '/' + p.total + ' tasks</span></summary><div class="tlist">' +
     gs.map(g => (gs.length > 1 || g.g !== "Make" ? '<div class="glabel">' + esc(g.g) + '</div>' : '') + '<ul>' + g.items.map(item).join("") + '</ul>').join("") +
     '</div></details>';
 }
@@ -184,7 +188,7 @@ PHASES.forEach((p, i) => {
     '<div class="row"><div class="pname"><span>' + p.n + '</span>' + p.name + '</div><div class="pct">' + pct + '%</div></div>' +
     '<div class="bar"><i data-w="' + pct + '"></i></div>' +
     '<div class="meta"><span>Weeks ' + p.weeks + ' · ' + fmt(p.start) + ' – ' + fmt(p.end) + ' · ' + p.done + '/' + p.total + '</span><span class="pill ' + cls + '">' + status + '</span></div>' +
-    checklist(p, true);
+    checklist(p, false);
   list.appendChild(el);
 });
 
