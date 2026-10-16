@@ -184,7 +184,7 @@ PHASES.forEach((p, i) => {
     '<div class="row"><div class="pname"><span>' + p.n + '</span>' + p.name + '</div><div class="pct">' + pct + '%</div></div>' +
     '<div class="bar"><i data-w="' + pct + '"></i></div>' +
     '<div class="meta"><span>Weeks ' + p.weeks + ' · ' + fmt(p.start) + ' – ' + fmt(p.end) + ' · ' + p.done + '/' + p.total + '</span><span class="pill ' + cls + '">' + status + '</span></div>' +
-    checklist(p, status === "In progress");
+    checklist(p, true);
   list.appendChild(el);
 });
 
