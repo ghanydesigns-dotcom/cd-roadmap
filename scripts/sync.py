@@ -60,7 +60,14 @@ def clean(t):
     t = re.sub(r'^(.+?), "(.+?)"$', r"\2 — \1", t)
     t = re.sub(r"^الدحيح: (.+)$", r"\1 — الدحيح", t)
     t = re.sub(r"\. Find one via .*$", "", t)
-    return t.strip()
+    # durations: " · 31 min + quiz" → " + quiz", "(9 min)", "(1h 35m)", " · ~20 min", " · 4 hrs (no post this week)"
+    t = re.sub(r" · ~?\d+(\.\d+)?(–\d+)? (hrs?|min)( \(no post this week\))?(?= \+ quiz|$| ·)", "", t)
+    t = re.sub(r" \((~?\d+h ?)?~?\d+(\.\d+)?(–\d+)? ?(min|m|hrs?)\)", "", t)
+    t = re.sub(r" \(no post this week\)", "", t)
+    t = re.sub(r" · lecture ~?\d+ hrs?", "", t)
+    t = re.sub(r" · ~?\d+h( \d+m)?(?=:| ·|$)", "", t)          # " · 1h 52m"
+    t = re.sub(r" · ~?\d+(\.\d+)? hrs?(?= \()", "", t)          # " · 2 hrs (note)"
+    return re.sub(r"\s{2,}", " ", t).strip()
 
 def walk(its):
     for i in its:
