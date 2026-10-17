@@ -83,7 +83,9 @@ def clean(t):
     t = re.sub(r"(^|· )Lesson \d+: ", r"\1", t)
     t = re.sub(r"^Quiz: Lesson \d+$", "Quiz", t)                 # "Quiz: Lesson 2" → "Quiz"
     t = re.sub(r"\s*·?\s*brief:\s*$", "", t)                      # trailing "· brief:" link label
-    t = re.sub(r"^HubSpot Content Marketing, (session \d+)", r"HubSpot \1", t)
+    # course name, not platform: "HubSpot session 3" / "HubSpot Content Marketing, session 1" → "Content Marketing, session 3"
+    t = re.sub(r"^HubSpot (Content Marketing, )?(session \d+)", r"Content Marketing, \2", t)
+    t = re.sub(r"^LinkedIn Learning: ", "", t)                    # "LinkedIn Learning: Course" → "Course"
     return re.sub(r"\s{2,}", " ", t).strip()
 
 def walk(its):
