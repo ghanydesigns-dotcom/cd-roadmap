@@ -11,6 +11,17 @@ import xml.etree.ElementTree as ET
 
 src, page = sys.argv[1], sys.argv[2]
 raw = json.load(open(src, encoding="utf-8"))
+if isinstance(raw, list):  # tool result saved as [{type, text}, ...]
+    for block in raw:
+        try:
+            cand = json.loads(block.get("text", ""))
+        except (ValueError, TypeError):
+            continue
+        if isinstance(cand, dict) and ("data" in cand or "value" in cand):
+            raw = cand
+            break
+    else:
+        sys.exit("ERROR: could not find the doc JSON in the saved result")
 if "data" in raw:
     xml = raw["data"]["xml"]
 elif "value" in raw:
@@ -61,12 +72,18 @@ def clean(t):
     t = re.sub(r"^الدحيح: (.+)$", r"\1 — الدحيح", t)
     t = re.sub(r"\. Find one via .*$", "", t)
     # durations: " · 31 min + quiz" → " + quiz", "(9 min)", "(1h 35m)", " · ~20 min", " · 4 hrs (no post this week)"
-    t = re.sub(r" · ~?\d+(\.\d+)?(–\d+)? (hrs?|min)( \(no post this week\))?(?= \+ quiz|$| ·)", "", t)
+    t = re.sub(r" · ~?\d+(\.\d+)?(–\d+)? (hrs?|min)( \(no post this week\))?(?= \+ quiz|$| ·|:)", "", t)
     t = re.sub(r" \((~?\d+h ?)?~?\d+(\.\d+)?(–\d+)? ?(min|m|hrs?)\)", "", t)
     t = re.sub(r" \(no post this week\)", "", t)
     t = re.sub(r" · lecture ~?\d+ hrs?", "", t)
     t = re.sub(r" · ~?\d+h( \d+m)?(?=:| ·|$)", "", t)          # " · 1h 52m"
     t = re.sub(r" · ~?\d+(\.\d+)? hrs?(?= \()", "", t)          # " · 2 hrs (note)"
+    # simplify: "session 3 of 11" → "session 3", drop "Lesson 4: " prefixes
+    t = re.sub(r"\b([Ss]ession \d+) of \d+\b", r"\1", t)
+    t = re.sub(r"(^|· )Lesson \d+: ", r"\1", t)
+    t = re.sub(r"^Quiz: Lesson \d+$", "Quiz", t)                 # "Quiz: Lesson 2" → "Quiz"
+    t = re.sub(r"\s*·?\s*brief:\s*$", "", t)                      # trailing "· brief:" link label
+    t = re.sub(r"^HubSpot Content Marketing, (session \d+)", r"HubSpot \1", t)
     return re.sub(r"\s{2,}", " ", t).strip()
 
 def walk(its):
