@@ -33,12 +33,16 @@
     body{padding:16px 16px 32px}
     .grid{grid-template-columns:1fr}
     .big{font-size:34px}
+    .title .tname{font-size:17px}
+    .title .tsub{font-size:12px}
     .meta{flex-wrap:wrap;gap:6px}
   }
   .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 17px}
   .head{display:flex;align-items:center;justify-content:space-between;gap:8px}
   .title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
-  .title svg{width:16px;height:16px;color:var(--muted)}
+  .title svg{width:18px;height:18px;color:var(--muted);flex-shrink:0}
+  .tname{font-size:20px;font-weight:700;letter-spacing:-.2px;line-height:1.2}
+  .tsub{font-size:13px;font-weight:400;color:var(--muted);margin-top:2px}
   .pill{font-size:11px;padding:3px 8px;border-radius:6px;background:var(--pill-bg);color:var(--pill-ink);white-space:nowrap}
   .pill.soft{background:var(--soft-bg);color:var(--soft-ink)}
   .pill.amber{background:var(--amber-bg);color:var(--amber-ink)}
@@ -89,7 +93,7 @@
       <div class="head">
         <div class="title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
-          Creative Director Roadmap
+          <div class="tlines"><div class="tname">Mohamed Abdelghany</div><div class="tsub">Creative Director Roadmap</div></div>
         </div>
         <span class="pill" id="weekPill">Week 1 / 32</span>
       </div>
